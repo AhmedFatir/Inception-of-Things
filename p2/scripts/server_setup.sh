@@ -32,9 +32,8 @@ echo "export KUBECONFIG=/home/vagrant/.kube/config
 export PATH=\$PATH:/usr/local/bin
 alias k='kubectl'" >> /home/vagrant/.bashrc
 
-echo "[SERVER] Copying node token and kubeconfig to shared directory..."
+echo "[SERVER] Copying kubeconfig to shared directory..."
 mkdir -p /vagrant/confs
-cat /var/lib/rancher/k3s/server/node-token > "/vagrant/confs/node-token"
 cat /home/vagrant/.kube/config > "/vagrant/confs/kubeconfig"
 
 echo "[SERVER] Verifying cluster status..."

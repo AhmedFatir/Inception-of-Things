@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-one
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-one
+  template:
+    metadata:
+      labels:
+        app: app-one
+    spec:
+      containers:
+      - name: app-one
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+        volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: html
+        configMap:
+          name: app-one-html
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-one-html
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>App 1</title>
+      <style>
+        body {
+          background-color: #f0ad4e;
+          font-family: Arial, sans-serif;
+          text-align: center;
+          padding-top: 100px;
+          color: white;
+        }
+        h1 {
+          font-size: 72px;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>Welcome to App 1</h1>
+      <p>You accessed this app using the app1.com host header</p>
+    </body>
+    </html>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-one
+spec:
+  selector:
+    app: app-one
+  ports:
+  - port: 80
+    targetPort: 80
