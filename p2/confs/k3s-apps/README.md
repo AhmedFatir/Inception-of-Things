@@ -27,22 +27,12 @@ kubectl delete -Rf ./manifests
 
 ## Accessing Applications
 
-Add these entries to your `/etc/hosts` file for testing:
+- **Path-based routing:**
+    - **App1**: http://192.168.56.110/app1
+    - **App2**: http://192.168.56.110/app2
+    - **App3**: http://192.168.56.110
 
-```
-192.168.56.110 app1.com
-192.168.56.110 app2.com
-```
-
-Then access the applications:
-- http://app1.com - Shows App 1
-- http://app2.com - Shows App 2
-- http://192.168.56.110 - Shows App 3 (default)
-
-## Testing with curl
-
-You can also test the host-based routing using curl:
-
+- **Host-based routing:**
 ```bash
 # For App 1
 curl -H "Host: app1.com" http://192.168.56.110
