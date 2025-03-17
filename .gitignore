@@ -1,1 +1,3 @@
 .vagrant/
+**/node-token
+**/kubeconfig
