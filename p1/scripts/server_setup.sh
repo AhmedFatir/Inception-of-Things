@@ -22,6 +22,6 @@ echo 'export PATH=$PATH:/usr/local/bin' >> /home/vagrant/.bashrc
 echo 'alias k="kubectl"' >> /home/vagrant/.bashrc
 
 echo "Copying node token to shared folder..."
-cat /var/lib/rancher/k3s/server/node-token > /vagrant/node-token
+cat /var/lib/rancher/k3s/server/node-token > /vagrant/confs/node-token
 
 echo "K3s server installation complete"
