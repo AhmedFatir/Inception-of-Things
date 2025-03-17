@@ -27,10 +27,16 @@ spec:
         volumeMounts:
         - name: html
           mountPath: /usr/share/nginx/html
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: nginx.conf
       volumes:
       - name: html
         configMap:
           name: app-one-html
+      - name: nginx-config
+        configMap:
+          name: app-one-config
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -57,9 +63,31 @@ data:
     </head>
     <body>
       <h1>Welcome to App 1</h1>
-      <p>You accessed this app using the app1.com host header</p>
+      <p>You accessed this app using the app1.com host header or /app1 path</p>
     </body>
     </html>
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-one-config
+data:
+  nginx.conf: |
+    server {
+        listen 80;
+        server_name localhost;
+
+        location / {
+            root /usr/share/nginx/html;
+            index index.html;
+        }
+
+        # Handle /app1 subpath
+        location /app1 {
+            alias /usr/share/nginx/html;
+            index index.html;
+        }
+    }
 ---
 apiVersion: v1
 kind: Service
